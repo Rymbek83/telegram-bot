@@ -1,39 +1,39 @@
 import os
-from telegram.ext import Updater, CommandHandler, MessageHandler, Filters
+from telegram import Update
+from telegram.ext import ApplicationBuilder, CommandHandler, MessageHandler, filters
 
 # Получаем токен из переменной окружения
 TOKEN = os.getenv('TELEGRAM_TOKEN')
 
-def start(update, context):
-    update.message.reply_text('Привет! Я ваш помощник по юридическим вопросам. Напишите свой вопрос.')
+# Функция для обработки команды /start
+async def start(update: Update, context):
+    await update.message.reply_text('Привет! Я ваш помощник по юридическим вопросам. Напишите свой вопрос.')
 
-def help_command(update, context):
-    update.message.reply_text('Я могу помочь вам с юридическими вопросами. Напишите свой вопрос.')
+# Функция для обработки команды /help
+async def help_command(update: Update, context):
+    await update.message.reply_text('Я могу помочь вам с юридическими вопросами. Напишите свой вопрос.')
 
-def handle_message(update, context):
+# Функция для обработки сообщений от пользователя
+async def handle_message(update: Update, context):
     text = update.message.text
-    # Ответ бота на текстовые сообщения
-    update.message.reply_text(f'Ваш вопрос: {text}. Спасибо за обращение!')
+    await update.message.reply_text(f'Ваш вопрос: {text}. Спасибо за обращение!')
 
+# Основная функция для запуска бота
 def main():
-    # Создаем бота с использованием токена
-    updater = Updater(TOKEN, use_context=True)
+    # Создаем экземпляр приложения
+    app = ApplicationBuilder().token(TOKEN).build()
 
-    # Получаем диспетчер для регистрации обработчиков
-    dp = updater.dispatcher
+    # Обработка команды /start
+    app.add_handler(CommandHandler("start", start))
+    
+    # Обработка команды /help
+    app.add_handler(CommandHandler("help", help_command))
 
-    # Обработка команд
-    dp.add_handler(CommandHandler("start", start))
-    dp.add_handler(CommandHandler("help", help_command))
-
-    # Обработка текстовых сообщений
-    dp.add_handler(MessageHandler(Filters.text & ~Filters.command, handle_message))
+    # Обработка всех текстовых сообщений
+    app.add_handler(MessageHandler(filters.TEXT & ~filters.COMMAND, handle_message))
 
     # Запуск бота
-    updater.start_polling()
-
-    # Запуск работы бота до остановки
-    updater.idle()
+    app.run_polling()
 
 if __name__ == '__main__':
     main()
