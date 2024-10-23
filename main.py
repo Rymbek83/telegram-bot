@@ -21,6 +21,11 @@ async def handle_message(update: Update, context):
 
 # Основная функция для запуска бота
 def main():
+    # Проверяем, что токен задан
+    if not TOKEN:
+        print("Ошибка: Токен Telegram не задан.")
+        return
+
     # Создаем экземпляр приложения
     app = ApplicationBuilder().token(TOKEN).build()
 
@@ -38,7 +43,7 @@ def main():
         listen="0.0.0.0",
         port=PORT,
         url_path=TOKEN,
-        webhook_url=f"https://unionhelper.herokuapp.com/{7921966575:AAHHe8EahOrzWiYeMeJelvJj2Hy979Nfdn8}"
+        webhook_url=f"https://unionhelper.herokuapp.com/{TOKEN}"
     )
 
 if __name__ == '__main__':
