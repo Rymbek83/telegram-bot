@@ -1,11 +1,10 @@
 import os
 from telegram import Update
 from telegram.ext import ApplicationBuilder, CommandHandler, MessageHandler, filters
-from aiohttp import web
 
 # Получаем токен из переменной окружения
 TOKEN = os.getenv('TELEGRAM_TOKEN')
-PORT = int(os.environ.get('PORT', 8443))
+PORT = int(os.environ.get('PORT', 5000))
 
 # Функция для обработки команды /start
 async def start(update: Update, context):
