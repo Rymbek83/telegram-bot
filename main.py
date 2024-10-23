@@ -25,14 +25,14 @@ def main():
 
     # Обработка команды /start
     app.add_handler(CommandHandler("start", start))
-
+    
     # Обработка команды /help
     app.add_handler(CommandHandler("help", help_command))
 
     # Обработка всех текстовых сообщений
     app.add_handler(MessageHandler(filters.TEXT & ~filters.COMMAND, handle_message))
 
-    # Запуск бота с использованием polling
+    # Запуск polling-метода для обработки сообщений
     app.run_polling()
 
 if __name__ == '__main__':
