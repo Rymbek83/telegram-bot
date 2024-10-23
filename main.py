@@ -1,9 +1,11 @@
 import os
 from telegram import Update
 from telegram.ext import ApplicationBuilder, CommandHandler, MessageHandler, filters
+from aiohttp import web
 
 # Получаем токен из переменной окружения
 TOKEN = os.getenv('TELEGRAM_TOKEN')
+PORT = int(os.environ.get('PORT', 8443))
 
 # Функция для обработки команды /start
 async def start(update: Update, context):
@@ -32,8 +34,13 @@ def main():
     # Обработка всех текстовых сообщений
     app.add_handler(MessageHandler(filters.TEXT & ~filters.COMMAND, handle_message))
 
-    # Запуск бота
-    app.run_polling()
+    # Запуск бота с использованием вебхука
+    app.run_webhook(
+        listen="0.0.0.0",
+        port=PORT,
+        url_path=TOKEN,
+        webhook_url=f"https://{os.getenv('HEROKU_APP_NAME')}.herokuapp.com/{TOKEN}"
+    )
 
 if __name__ == '__main__':
     main()
