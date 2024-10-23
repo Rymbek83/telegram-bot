@@ -38,7 +38,7 @@ def main():
         listen="0.0.0.0",
         port=PORT,
         url_path=TOKEN,
-        webhook_url=f"https://unionhelper.herokuapp.com/{TOKEN}"
+        webhook_url=f"https://unionhelper.herokuapp.com/{7921966575:AAHHe8EahOrzWiYeMeJelvJj2Hy979Nfdn8}"
     )
 
 if __name__ == '__main__':
